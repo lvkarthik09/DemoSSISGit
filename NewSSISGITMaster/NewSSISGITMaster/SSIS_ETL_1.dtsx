@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="SSIS_ETL_1"
   DTS:PackageType="5"
-  DTS:VersionBuild="2"
-  DTS:VersionGUID="{BF97AB19-FD09-4DBE-B27C-B12365257CAF}">
+  DTS:VersionBuild="3"
+  DTS:VersionGUID="{82232E24-93A8-46DF-B64B-C3C7F09E37C1}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -723,7 +723,7 @@
         <NodeLayout
           Size="152,42.6666666666667"
           Id="Package\Data Flow Task\Flat File Source"
-          TopLeft="60,60" />
+          TopLeft="99.3333333333333,44.6666666666667" />
         <NodeLayout
           Size="154.666666666667,42.6666666666667"
           Id="Package\Data Flow Task\Derived Column"
@@ -734,30 +734,30 @@
           TopLeft="97.1666666666666,345.166666666667" />
         <EdgeLayout
           Id="Package\Data Flow Task.Paths[Flat File Source Output]"
-          TopLeft="136,102.666666666667">
+          TopLeft="175.333333333333,87.3333333333333">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="16.6666666666667,54.6666666666667"
+              EndConnector="-22.6666666666665,70"
               Start="0,0"
-              End="16.6666666666667,47.1666666666667">
+              End="-22.6666666666665,62.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,23.3333333333333" />
+                    End="0,31" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,23.3333333333333"
-                    Point2="0,27.3333333333333"
-                    Point3="4,27.3333333333333" />
+                    Point1="0,31"
+                    Point2="0,35"
+                    Point3="-4,35" />
                   <mssgle:LineSegment
-                    End="12.6666666666667,27.3333333333333" />
+                    End="-18.6666666666665,35" />
                   <mssgle:CubicBezierSegment
-                    Point1="12.6666666666667,27.3333333333333"
-                    Point2="16.6666666666667,27.3333333333333"
-                    Point3="16.6666666666667,31.3333333333333" />
+                    Point1="-18.6666666666665,35"
+                    Point2="-22.6666666666665,35"
+                    Point3="-22.6666666666665,39" />
                   <mssgle:LineSegment
-                    End="16.6666666666667,47.1666666666667" />
+                    End="-22.6666666666665,62.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
