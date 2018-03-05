@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="SSIS_ETL_1"
   DTS:PackageType="5"
-  DTS:VersionBuild="3"
-  DTS:VersionGUID="{82232E24-93A8-46DF-B64B-C3C7F09E37C1}">
+  DTS:VersionBuild="4"
+  DTS:VersionGUID="{D4FBC5E7-91A9-4FF7-97A8-ED3FD68D6A0B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -189,6 +189,97 @@
         <pipeline
           version="1">
           <components>
+            <component
+              refId="Package\Data Flow Task\Conditional Split"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Conditional Split"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input].Columns[Dept]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Dept"
+                      lineageId="Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[Dept]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Conditional Split.Outputs[case Dept]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="case Dept"
+                  synchronousInputId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\Data Flow Task\Flat File Source.Outputs[Flat File Source Output].Columns[Dept]} == "Iqlik"</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">Dept == "Iqlik"</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Conditional Split.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Conditional Split.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
             <component
               refId="Package\Data Flow Task\Derived Column"
               componentClassID="Microsoft.DerivedColumn"
@@ -677,8 +768,13 @@
           </components>
           <paths>
             <path
-              refId="Package\Data Flow Task.Paths[Derived Column Output]"
+              refId="Package\Data Flow Task.Paths[Conditional Split Default Output]"
               endId="Package\Data Flow Task\Sort 1.Inputs[Sort Input]"
+              name="Conditional Split Default Output"
+              startId="Package\Data Flow Task\Conditional Split.Outputs[Conditional Split Default Output]" />
+            <path
+              refId="Package\Data Flow Task.Paths[Derived Column Output]"
+              endId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]"
               name="Derived Column Output"
               startId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Output]" />
             <path
@@ -719,71 +815,37 @@
     design-time-name="Package\Data Flow Task">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="181.333333333334,61.3333333333334"
+          Id="Package\Data Flow Task\Flat File Destination 1"
+          TopLeft="71.7500003787378,363.366666341226" />
         <NodeLayout
           Size="152,42.6666666666667"
           Id="Package\Data Flow Task\Flat File Source"
-          TopLeft="99.3333333333333,44.6666666666667" />
+          TopLeft="103.91666659837,13.0333338989815" />
         <NodeLayout
           Size="154.666666666667,42.6666666666667"
           Id="Package\Data Flow Task\Derived Column"
-          TopLeft="75.3333333333334,157.333333333333" />
-        <NodeLayout
-          Size="181.333333333334,42.6666666666667"
-          Id="Package\Data Flow Task\Flat File Destination 1"
-          TopLeft="97.1666666666666,345.166666666667" />
-        <EdgeLayout
-          Id="Package\Data Flow Task.Paths[Flat File Source Output]"
-          TopLeft="175.333333333333,87.3333333333333">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-22.6666666666665,70"
-              Start="0,0"
-              End="-22.6666666666665,62.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,31" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,31"
-                    Point2="0,35"
-                    Point3="-4,35" />
-                  <mssgle:LineSegment
-                    End="-18.6666666666665,35" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-18.6666666666665,35"
-                    Point2="-22.6666666666665,35"
-                    Point3="-22.6666666666665,39" />
-                  <mssgle:LineSegment
-                    End="-22.6666666666665,62.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+          TopLeft="91.5833330911895,114.86666742603" />
         <NodeLayout
           Size="108,42.6666666666667"
           Id="Package\Data Flow Task\Sort 1"
-          TopLeft="104,251.333333333333" />
+          TopLeft="108.999999925494,274.733332914908" />
         <EdgeLayout
-          Id="Package\Data Flow Task.Paths[Derived Column Output]"
-          TopLeft="155.333333333333,200">
+          Id="Package\Data Flow Task.Paths[Sort Output]"
+          TopLeft="162.708333485449,317.399999581575">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,51.3333333333333"
+              EndConnector="0,45.9666667596505"
               Start="0,0"
-              End="0,43.8333333333333">
+              End="0,38.4666667596505">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,43.8333333333333" />
+                    End="0,38.4666667596505" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -793,31 +855,103 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Task.Paths[Sort Output]"
-          TopLeft="158,294">
+          Id="Package\Data Flow Task.Paths[Flat File Source Output]"
+          TopLeft="179.91666659837,55.7000005656481">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="29.8333333333333,51.166666666667"
+              EndConnector="-11.0000001738468,59.1666668603814"
               Start="0,0"
-              End="29.8333333333333,43.666666666667">
+              End="-11.0000001738468,51.6666668603814">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,21.5833333333335" />
+                    End="0,25.5833334301907" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,21.5833333333335"
-                    Point2="0,25.5833333333335"
-                    Point3="4,25.5833333333335" />
+                    Point1="0,25.5833334301907"
+                    Point2="0,29.5833334301907"
+                    Point3="-4,29.5833334301907" />
                   <mssgle:LineSegment
-                    End="25.8333333333333,25.5833333333335" />
+                    End="-7.00000017384681,29.5833334301907" />
                   <mssgle:CubicBezierSegment
-                    Point1="25.8333333333333,25.5833333333335"
-                    Point2="29.8333333333333,25.5833333333335"
-                    Point3="29.8333333333333,29.5833333333335" />
+                    Point1="-7.00000017384681,29.5833334301907"
+                    Point2="-11.0000001738468,29.5833334301907"
+                    Point3="-11.0000001738468,33.5833334301907" />
                   <mssgle:LineSegment
-                    End="29.8333333333333,43.666666666667" />
+                    End="-11.0000001738468,51.6666668603814" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="156,42.6666666666667"
+          Id="Package\Data Flow Task\Conditional Split"
+          TopLeft="100.999998882413,193.733332372506" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Derived Column Output]"
+          TopLeft="168.916666424523,157.533334092696">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="10.08333245789,36.1999982798103"
+              Start="0,0"
+              End="10.08333245789,28.6999982798103">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.0999991399052" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.0999991399052"
+                    Point2="0,18.0999991399052"
+                    Point3="4,18.0999991399052" />
+                  <mssgle:LineSegment
+                    End="6.08333245789004,18.0999991399052" />
+                  <mssgle:CubicBezierSegment
+                    Point1="6.08333245789004,18.0999991399052"
+                    Point2="10.08333245789,18.0999991399052"
+                    Point3="10.08333245789,22.0999991399052" />
+                  <mssgle:LineSegment
+                    End="10.08333245789,28.6999982798103" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Conditional Split Default Output]"
+          TopLeft="178.999998882413,236.399999039173">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-15.9999989569187,38.3333338757353"
+              Start="0,0"
+              End="-15.9999989569187,30.8333338757353">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.1666669378677" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15.1666669378677"
+                    Point2="0,19.1666669378677"
+                    Point3="-4,19.1666669378677" />
+                  <mssgle:LineSegment
+                    End="-11.9999989569187,19.1666669378677" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-11.9999989569187,19.1666669378677"
+                    Point2="-15.9999989569187,19.1666669378677"
+                    Point3="-15.9999989569187,23.1666669378677" />
+                  <mssgle:LineSegment
+                    End="-15.9999989569187,30.8333338757353" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
